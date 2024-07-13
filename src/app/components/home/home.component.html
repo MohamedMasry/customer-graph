@@ -1,0 +1,95 @@
+<div class="logo">
+    <i class="fa-solid fa-chart-column"></i><h1 class="logo-text"> Transactions</h1>
+</div>
+
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+    <input #search type="search" id="search" class="form-control" (input)="searchByName(search)"
+        placeholder="Search by Customer name" aria-label="Search by Customer name" aria-describedby="basic-addon1">
+</div>
+<div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+    <input (click)="toggleViewStyle($event)" type="radio" class="btn-check" name="dataStyle" id="tableView"
+        autocomplete="off" checked>
+    <label class="btn btn-outline-primary" for="tableView"><i class="fa-solid fa-table"></i></label>
+
+    <input (click)="toggleViewStyle($event)" type="radio" class="btn-check" name="dataStyle" id="cardsView"
+        autocomplete="off">
+    <label class="btn btn-outline-primary" for="cardsView"><i class="fa-solid fa-id-card-clip"></i></label>
+
+</div>
+
+<div class="customersInfos">
+
+    <div class="cardsStyle mb-3" id="cardStyle" *ngIf="viewToggle == 'cardsView'">
+        <div class="row g-3">
+            <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let cust of customersData">
+                <div class="card">
+                    <div class="card-img">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="card-body ">
+                        <h5 class="card-title">{{cust.name}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Total Transactions Amount</p>
+                        <p>{{getTotalTransactions(cust.id)}}</p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#customerChart" (click)="getCustomerChart(cust.id,cust.name)">View
+                            Transactions</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <table class="table table-striped text-center" id="tableStyle" *ngIf="viewToggle == 'tableView'">
+        <thead>
+            <tr>
+                <th scope="col">Customer ID</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Total Transactions Amount</th>
+                <th scope="col">View Transactions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="customersData?.length == 0">
+                <th colspan="4">Customer Not Found</th>
+            </tr>
+            <tr *ngFor="let cust of customersData">
+                <th scope="row">{{cust.id}}</th>
+                <td>{{cust.name}}</td>
+                <td>{{getTotalTransactions(cust.id)}}</td>
+                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerChart"
+                        (click)="getCustomerChart(cust.id,cust.name)">View
+                        Transactions</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="graphContainer">
+    <h4 class="containerLabel"><i class="fa-solid fa-chart-column"></i> Total Customers Transactions</h4>
+    <canvas id="totalCanvas"></canvas>
+</div>
+
+<div class="modal fade" id="customerChart" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{currentCustomer}} Transactions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 class="text-center">Total Transactions Amount : {{totalCurrentAmount}}</h5>
+                <div class="graphDetailed">
+                    <canvas id="detailedChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
