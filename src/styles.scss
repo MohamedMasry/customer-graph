@@ -21,10 +21,10 @@ body {
 }
 
 .logo {
-    width: 30%;
+width: 300px;
     margin: 30px auto;
     background-color: white;
-    padding: 10px 0px;
+    padding: 10px 5px;
     border-radius: 10px;
     color: #0D6EFD;
     transition: 0.3s;
@@ -34,6 +34,7 @@ body {
     font-size: 30px;
     gap: 5px;
     overflow: hidden;
+    
 
     &:hover {
         background-color: #0D6EFD;
@@ -47,6 +48,8 @@ body {
         animation: tracking-in-contract-bck 1s 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
     }
 }
+
+
 
 @keyframes tracking-in-contract-bck {
     0% {
